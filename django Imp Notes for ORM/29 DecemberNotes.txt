@@ -1,0 +1,298 @@
+
+D:\test Siddheshwark\django\AppMaker>python manage.py shell
+Python 3.11.5 (tags/v3.11.5:cce6ba9, Aug 24 2023, 14:38:34) [MSC v.1936 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from FApp.models import *
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i)
+...
+Lamborgini
+Xuv
+Tata Moters
+indico
+BMW
+>>> for i in car:
+...     print(i.car_name)
+...
+Lamborgini
+Xuv
+Tata Moters
+indico
+BMW
+>>> car = Car.objects.get(id = 1)
+>>> car
+<Car: Lamborgini>
+>>> car = Car.objects.get(id = 4)
+>>> car
+<Car: indico>
+>>> car = Car.objects.get(id = 10)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+FApp.models.Car.DoesNotExist: Car matching query does not exist.
+>>> car =Car.objects.filter(id = 10)
+>>> car
+<QuerySet []>
+>>> #update data.
+>>> car = Car.objects.filter(id = 1)
+>>> car.car_name('Tesla Luxury Electric Vehicles 2003-Present')
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'car_name'
+>>> car = Car.objects.get(id = 1)
+>>> car.car_name
+'Lamborgini'
+>>> car = Car.objects.filter(id = 1)
+>>> car.car_name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'car_name'
+>>> car = Car.objects.get(id = 1)
+>>> car.car_name = 'Tesla Luxury Electric Vehicles 2003-Present'
+>>> car.speed = '14mils per hour'
+>>> car.save()
+Traceback (most recent call last):
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\fields\__init__.py", line 2053, in get_prep_value
+    return int(value)
+           ^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: '14mils per hour'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\base.py", line 990, in _save_table
+    updated = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\base.py", line 1054, in _do_update
+    return filtered._update(values) > 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 1231, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\compiler.py", line 1984, in execute_sql
+    cursor = super().execute_sql(result_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\compiler.py", line 1549, in execute_sql
+    sql, params = self.as_sql()
+                  ^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\sql\compiler.py", line 1947, in as_sql
+    val = field.get_db_prep_save(val, connection=self.connection)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\fields\__init__.py", line 954, in get_db_prep_save
+    return self.get_db_prep_value(value, connection=connection, prepared=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\fields\__init__.py", line 2060, in get_db_prep_value
+    value = super().get_db_prep_value(value, connection, prepared)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\fields\__init__.py", line 947, in get_db_prep_value
+    value = self.get_prep_value(value)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\fields\__init__.py", line 2055, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'speed' expected a number but got '14mils per hour'.
+>>> car = Car.objects.get(id = 1)
+>>> car.car_name = 'Tesla Luxury Electric Vehicles 2003-Present'
+>>> car.speed = 3000
+>>> car.save()
+>>> car
+<Car: Tesla Luxury Electric Vehicles 2003-Present>
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i)
+...
+Tesla Luxury Electric Vehicles 2003-Present
+Xuv
+Tata Moters
+indico
+BMW
+>>> car = Car.objects.filter(id = 2).update(car_name = "Ferrari Luxury Sports Cars ")
+>>> car
+1
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i)
+...
+Tesla Luxury Electric Vehicles 2003-Present
+Ferrari Luxury Sports Cars
+Tata Moters
+indico
+BMW
+>>> car = Car.objects.filter( id = 1).delete()
+>>> car
+(1, {'FApp.Car': 1})
+>>> Car.objects.all()
+<QuerySet [<Car: Ferrari Luxury Sports Cars >, <Car: Tata Moters>, <Car: indico>, <Car: BMW>]>
+>>> car = Car.objects.get(id = 2).delete()
+>>> car
+(1, {'FApp.Car': 1})
+>>> Car.objects.all()
+<QuerySet [<Car: Tata Moters>, <Car: indico>, <Car: BMW>]>
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i.id)
+...
+3
+4
+5
+>>> car = Car.objects.get(id = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+FApp.models.Car.DoesNotExist: Car matching query does not exist.
+>>> car = Car.objects.filter(id = 1)
+>>> car.car_name('Tesla')
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'car_name'
+>>> car = Car.objects.filter(id = 1).update(car_name = 'tesla car')
+>>> car
+0
+>>> car.save()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'int' object has no attribute 'save'
+>>> for i in car:
+...     print(i)
+...
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+TypeError: 'int' object is not iterable
+>>> for i in car:
+...
+...
+... dfg
+  File "<console>", line 4
+    dfg
+    ^^^
+SyntaxError: incomplete input
+>>> car = Car.objects.all()
+>>> car
+<QuerySet [<Car: Tata Moters>, <Car: indico>, <Car: BMW>]>
+>>> for i in car:
+...     print(i)
+...
+Tata Moters
+indico
+BMW
+>>> car = Car.objects.filter(id = 1).update(car_name = 'Tesla car')
+>>> car
+0
+>>> Car.objects.all()
+<QuerySet [<Car: Tata Moters>, <Car: indico>, <Car: BMW>]>
+>>> car = Car.objects.get(id = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+FApp.models.Car.DoesNotExist: Car matching query does not exist.
+>>> car = Car.objects.filter(id = 1)
+>>> car
+<QuerySet []>
+>>> car.car_name = 'Tesla car'
+>>> car.speed = 200
+>>> car.save()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'save'
+>>> car
+<QuerySet []>
+>>> car = Car.objects.filter( id = 1 ).update(car_name = 'Tesla', speed = 200)
+>>> car
+0
+>>> car = Car.objects.get( id = 1 ).update(car_name = 'Tesla', speed = 200)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+FApp.models.Car.DoesNotExist: Car matching query does not exist.
+>>> car = Car.objects.get(id = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+FApp.models.Car.DoesNotExist: Car matching query does not exist.
+>>> car = Car.objects.filter(id = 1)
+>>> car.car_name = "Tesla"
+>>> car.speed =3000
+>>> car.save()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'save'
+>>> car = Car.objects.create()
+>>> car.car_name = 'Tesla'
+>>> car.speed = 300
+>>> car.save()
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i)
+...
+Tata Moters
+indico
+BMW
+Tesla
+>>> for i in car:
+...     print(i.id)
+...
+3
+4
+5
+6
+>>> car = Car(id = 1, car_name = 'Ferrari Luxury Sports Cars', speed = 200)
+>>> car.save()
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i.id)
+...
+1
+3
+4
+5
+6
+>>> car = Car(id = 2, car_name = 'Ford Mass-Market Cars', speed = 3000)
+>>> car.save(0
+...
+... )
+>>> car.save()
+>>> car = Car.objects.all()
+>>> for i in car:
+...     print(i.id)
+...     print(i.car_name)
+...
+1
+Ferrari Luxury Sports Cars
+2
+Ford Mass-Market Cars
+3
+Tata Moters
+4
+indico
+5
+BMW
+6
+Tesla
+>>>

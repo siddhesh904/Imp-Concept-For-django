@@ -1,0 +1,37 @@
+
+D:\test Siddheshwark\django\AppMaker>python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 27, 2023 - 17:12:22
+Django version 4.2.6, using settings 'AppMaker.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+
+D:\test Siddheshwark\django\AppMaker>python manage.py shell
+Python 3.11.5 (tags/v3.11.5:cce6ba9, Aug 24 2023, 14:38:34) [MSC v.1936 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from FApp.models import *
+>>> Student.objects.all()
+<QuerySet [<Student: Student object (1)>, <Student: Student object (2)>]>
+>>> Student.objects.all().delete()
+(2, {'FApp.Student': 2})
+>>> Student.objects.all()
+>>> student = Student(name = "Siddheshwar",age = 22, email = "sk20@gmail.com", address = "Thane")
+>>> student
+<Student: Student object (None)>
+>>> student.save()
+>>> #method two to create / insert the data into database.
+>>> student = Student.objects.create(name = "Chetan", age = 25, email = "chk20@gmail.com",address ="Thane")
+>>> student.save()
+>>> Student.objects.create(name = "Sharvari", age = 21, email = "sg20@gmail.com", address = "kholapur")
+<Student: Student object (5)>
+>>> Student
+<class 'FApp.models.Student'>
+>>> Student.objects.all()
+<QuerySet [<Student: Student object (3)>, <Student: Student object (4)>, <Student: Student object (5)>]>
+>>>
+
